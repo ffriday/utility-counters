@@ -12,4 +12,4 @@ export const firebase = initializeApp(loadEnv());
 app.use(createPinia())
 app.use(router)
 
-app.mount('#app')
+app.mount('body')

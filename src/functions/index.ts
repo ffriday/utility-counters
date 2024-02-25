@@ -1,3 +1,4 @@
 import { loadEnv } from './loadEnv';
+import { useTheme } from './useTheme';
 
-export { loadEnv };
+export { loadEnv, useTheme };

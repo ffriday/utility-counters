@@ -1,11 +1,29 @@
 <script setup lang="ts">
+import { useTheme } from './functions';
+
+const { theme, toggleTheme } = useTheme()
 </script>
 
 <template>
-  <header>HEADER</header>
-  <router-view></router-view>
+  <div>
+    <header>HEADER</header>
+    <router-view @toggle-theme="toggleTheme"></router-view>
+  </div>
 </template>
 
-<style scoped>
+<style>
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
 
+body>div {
+  width: 100%;
+  height: 100%;
+  background-color: v-bind('theme.background');
+  color: v-bind('theme.color');
+}
 </style>
