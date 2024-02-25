@@ -1,21 +1,16 @@
-import SignUp from '@/components/SignUp.vue'
-import SignIn from '@/components/SignIn.vue'
+import { LogInVue } from '@/components'
 import { MyRoutes } from '@/constants'
+import { myHomeVue } from '@/pages'
 
 export const routes = [
   {
     path: '/',
     name: 'home',
-    component: SignIn
+    component: myHomeVue
   },
   {
     path: `/${MyRoutes.login}`,
     name: MyRoutes.login,
-    component: SignIn
+    component: LogInVue
   },
-  {
-    path: `/${MyRoutes.register}`,
-    name: MyRoutes.register,
-    component: SignUp,
-  }
 ]
