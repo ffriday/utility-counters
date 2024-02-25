@@ -2,8 +2,7 @@
 </script>
 
 <template>
-  <header>HEADER</header>
-  <router-view></router-view>
+  Register
 </template>
 
 <style scoped>
