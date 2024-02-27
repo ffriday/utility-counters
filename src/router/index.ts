@@ -13,7 +13,6 @@ router.beforeEach((to) => {
   const store = useAuthStore()
   const { isLogged } = storeToRefs(store)
 
-  console.log(to.name, to.name === MyRoutes.home)
   if (to.name === MyRoutes.home) return;
   if (to.name !== MyRoutes.login && !isLogged.value) {
     return { name: MyRoutes.login }

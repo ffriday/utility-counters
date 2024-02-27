@@ -1,4 +1,5 @@
 import { loadEnv } from './loadEnv';
 import { useTheme } from './useTheme';
+import { navLinks } from './navLinks';
 
-export { loadEnv, useTheme };
+export { loadEnv, useTheme, navLinks };
