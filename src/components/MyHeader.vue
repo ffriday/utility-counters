@@ -28,13 +28,13 @@ const menuItems = computed(() => navLinks(store.isLogged))
   </VaNavbar>
   <VaSidebar v-if="store.isLogged && breakpoint.xs">
     <VaSidebarItem class="sidebarMenu">
-        <VaSidebarItemContent>
-          <VaSidebarItemTitle>ДОБАВИТЬ ПОКАЗАНИЯ</VaSidebarItemTitle>
-        </VaSidebarItemContent>
-        <VaSidebarItemContent>
-          <VaSidebarItemTitle>АРХИВ</VaSidebarItemTitle>
-        </VaSidebarItemContent>
-      </VaSidebarItem>
+      <VaSidebarItemContent>
+        <VaSidebarItemTitle>ДОБАВИТЬ ПОКАЗАНИЯ</VaSidebarItemTitle>
+      </VaSidebarItemContent>
+      <VaSidebarItemContent>
+        <VaSidebarItemTitle>АРХИВ</VaSidebarItemTitle>
+      </VaSidebarItemContent>
+    </VaSidebarItem>
   </VaSidebar>
 </template>
 
