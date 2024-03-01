@@ -1,27 +1,45 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
-import { useErrorStore } from '@/stores/error';
-import { ref, watch } from 'vue';
+import { reactive, ref } from 'vue';
+import { useForm } from "vuestic-ui";
+import { useRouter } from 'vue-router';
 
-const errorStore = useErrorStore()
-const { message } = storeToRefs(errorStore)
+const router = useRouter()
+
+const { validate: validateLogin } = useForm("loginForm");
+const { validate: validateRegister } = useForm("registerForm");
 
 const authStore = useAuthStore()
-const { logIn, logOut } = authStore
-const { id, isLogged, isLoading } = storeToRefs(authStore)
+const { logIn, logOut, register } = authStore
+const { isLogged, isLoading } = storeToRefs(authStore)
 const activeTab = ref(0)
-watch(activeTab, (newVal, oldVal) => {
-  // Выполните здесь действия, которые должны произойти при изменении activeTab
-  console.log('Значение активного таба изменилось:', newVal, oldVal);
 
-  // Пример: Изменение другого элемента
-  // Допустим, у вас есть другой элемент с ref "someElement"
-  // this.$refs.someElement.someAction(newVal); // Замените это действие на то, что вам нужно
+const loginData = reactive({
+  login: "",
+  password: "",
+});
+const registerData = reactive({
+  login: "",
+  password: "",
+  confirmPassword: "",
 });
 
-
 const login = async () => {
+  if(validateLogin()) {
+    await logIn(loginData.login, loginData.password)
+    if (isLogged) router.push("/")
+  }
+}
+
+const reg = async () => {
+  if(validateRegister()) {
+    await register(registerData.login, registerData.password)
+    if (isLogged) router.push("/")
+  }
+}
+
+const loginTest = async () => {
   if (isLogged.value) {
     logOut()
   } else {
@@ -39,11 +57,41 @@ const login = async () => {
           <VaTab>Регистрация</VaTab>
         </template>
       </VaTabs>
-      <div>logged: {{ isLogged }}</div>
-      <div>loading: {{ isLoading }}</div>
-      <div>error: {{ message }}</div>
-      <div>id: {{ id }}</div>
-      <button @click="login">LOGIN</button>
+
+      <VaForm v-if="activeTab === 0" ref="loginForm" class="form">
+        <VaInput v-model="loginData.login" label="e-mail" name="Login" :rules="[
+          (v) => Boolean(v) || 'Введите почту',
+          (v) => v.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) || 'Не верный формат почты'
+        ]" />
+        <VaInput v-model="loginData.password" label="Пароль" type="password" name="Password" :rules="[
+          (v) => Boolean(v) || 'Введите пароль',
+          (v) => v.length > 8 || 'Пароль должен быть не менее 8 символов',
+          (v) => v.match(/(.*[a-z].*[A-Z])|(.*[A-Z].*[a-z])/) || 'Пароль должен сдержать прописную и строчную букву',
+          (v) => v.match(/(?=.*\d)/) || 'Пароль должен сдержать цифру',
+        ]" />
+        <VaButton :disabled="isLoading" @click="login">Войти</VaButton>
+      </VaForm>
+
+      <VaForm v-else ref="registerForm" class="form">
+        <VaInput v-model="registerData.login" label="e-mail" name="Login" :rules="[
+          (v) => Boolean(v) || 'Введите почту',
+          (v) => v.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) || 'Не верный формат почты'
+        ]" />
+        <VaInput v-model="registerData.password" label="Пароль" type="password" name="Password" :rules="[
+          (v) => Boolean(v) || 'Введите пароль',
+          (v) => v.length > 8 || 'Пароль должен быть не менее 8 символов',
+          (v) => v.match(/(.*[a-z].*[A-Z])|(.*[A-Z].*[a-z])/) || 'Пароль должен сдержать прописную и строчную букву',
+          (v) => v.match(/(?=.*\d)/) || 'Пароль должен сдержать цифру',
+        ]" />
+        <VaInput v-model="registerData.confirmPassword" label="Подтверждение пароля" type="password"
+          name="confirmPassword" :rules="[
+            (v) => Boolean(v) || 'Подтвердите пароль',
+            (v) => v === registerData.password || 'Пароли не совпадают',
+          ]" />
+          <VaButton :disabled="isLoading" @click="reg">Регистрация</VaButton>
+      </VaForm>
+      
+      <button @click="loginTest">TEST LOGIN</button>
     </VaCard>
   </main>
 </template>
@@ -56,9 +104,19 @@ main {
   min-height: 400px;
   height: 100%;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .login-form {
   max-width: 500px;
   width: 90%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 </style>
