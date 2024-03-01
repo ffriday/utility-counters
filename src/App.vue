@@ -10,5 +10,9 @@ import { MyHeaderVue } from './components';
   </div>
 </template>
 
-<style>
+<style scoped>
+  div {
+    height: 100%;
+    min-height: 100vh;
+  }
 </style>

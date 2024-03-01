@@ -10,12 +10,21 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const store = useAuthStore()
-  const { isLogged } = storeToRefs(store)
+  const authStore = useAuthStore()
+  const { logOut } = authStore
+  const { isLogged } = storeToRefs(authStore)
 
   if (to.name === MyRoutes.home) return;
+  if (to.name === MyRoutes.logout) {
+    logOut();
+    router.push('/')
+    return;
+  }
   if (to.name !== MyRoutes.login && !isLogged.value) {
     return { name: MyRoutes.login }
+  }
+  if (to.name === MyRoutes.login && isLogged.value) {
+    return { name: '/' }
   }
 })
 

@@ -14,34 +14,43 @@ const menuItems = computed(() => navLinks(store.isLogged))
   <VaNavbar v-bind="headerColors" class="mb-3">
     <template #left>
       <VaNavbarItem class="logo">
-        СЧЕТЧИКИ
+        <router-link to="/">СЧЕТЧИКИ</router-link>
       </VaNavbarItem>
     </template>
     <template #right>
-      <VaNavbarItem v-for="item in menuItems" :key="item" class="hidden sm:block">
-        {{ item.title }}
-      </VaNavbarItem>
       <VaNavbarItem v-if="store.isLogged && breakpoint.xs" class="hidden sm:block">
         <VaIcon name="dashboard" />
       </VaNavbarItem>
+      <VaNavbarItem v-else v-for="item in menuItems" :key="item" class="hidden sm:block">
+        <router-link :to="item.link" class="link">{{ item.title }}</router-link>
+      </VaNavbarItem>
     </template>
   </VaNavbar>
-  <VaSidebar v-if="store.isLogged && breakpoint.xs">
+  <!-- <VaSidebar v-if="store.isLogged && breakpoint.xs">
     <VaSidebarItem class="sidebarMenu">
-      <VaSidebarItemContent>
-        <VaSidebarItemTitle>ДОБАВИТЬ ПОКАЗАНИЯ</VaSidebarItemTitle>
-      </VaSidebarItemContent>
-      <VaSidebarItemContent>
-        <VaSidebarItemTitle>АРХИВ</VaSidebarItemTitle>
+      <VaSidebarItemContent v-for="item in menuItems" :key="item" class="hidden sm:block">
+        <VaSidebarItemTitle>
+          <router-link :to="item.link" class="link">{{ item.title }}</router-link>
+        </VaSidebarItemTitle>
       </VaSidebarItemContent>
     </VaSidebarItem>
-  </VaSidebar>
+  </VaSidebar> -->
 </template>
 
 <style scoped>
 .logo {
   font-weight: 600;
   font-size: 1.5rem;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .sidebarMenu {

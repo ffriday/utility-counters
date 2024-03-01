@@ -1,11 +1,11 @@
 import { LogInVue } from '@/components'
 import { MyRoutes } from '@/constants'
-import { myHomeVue } from '@/pages'
+import { myHomeVue, NotFoundVue } from '@/pages'
 
 export const routes = [
   {
     path: '/',
-    name: 'home',
+    name: MyRoutes.home,
     component: myHomeVue
   },
   {
@@ -13,4 +13,14 @@ export const routes = [
     name: MyRoutes.login,
     component: LogInVue
   },
+  {
+    path: `/${MyRoutes.logout}`,
+    name: MyRoutes.logout,
+    component: myHomeVue
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: MyRoutes.notFound,
+    component: NotFoundVue
+  }
 ]

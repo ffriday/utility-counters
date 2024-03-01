@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
   const id = ref('')
   const isLoading = ref(false)
   const isLogged = computed(() => Boolean(id.value))
+
   async function logIn(email: string, password: string) {
     isLoading.value = true
     const response = await sendAuthRequest(email, password, signInWithEmailAndPassword, 'Пользователь не найден')
@@ -22,6 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (response) id.value = response
     isLoading.value = false
   }
+
   async function logOut() {
     isLoading.value = true
     await signOut(auth)

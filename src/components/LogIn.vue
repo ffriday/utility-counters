@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
-import { doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from '@/main';
-import { collection, setDoc } from "firebase/firestore";
 import { useErrorStore } from '@/stores/error';
-import { pushCounters, getCounter, getCounters } from '@/functions';
+import { ref, watch } from 'vue';
 
 const errorStore = useErrorStore()
 const { message } = storeToRefs(errorStore)
 
 const authStore = useAuthStore()
-const { id, isLogged, isLoading } = storeToRefs(authStore)
-
-
 const { logIn, logOut } = authStore
+const { id, isLogged, isLoading } = storeToRefs(authStore)
+const activeTab = ref(0)
+watch(activeTab, (newVal, oldVal) => {
+  // Выполните здесь действия, которые должны произойти при изменении activeTab
+  console.log('Значение активного таба изменилось:', newVal, oldVal);
+
+  // Пример: Изменение другого элемента
+  // Допустим, у вас есть другой элемент с ref "someElement"
+  // this.$refs.someElement.someAction(newVal); // Замените это действие на то, что вам нужно
+});
+
+
 const login = async () => {
   if (isLogged.value) {
     logOut()
@@ -22,32 +28,37 @@ const login = async () => {
     logIn('test@test.ru', 'qweQWE123!@#');
   }
 }
-
-const push = async () => {
-  const counters = {
-    coldWater: 111,
-    hotWater: 222,
-    electricity: 12345
-  }
-  await pushCounters(id.value, 2024, 4, counters)
-}
-
-const get = async () => {
-  // const data = await getCounter(id.value, 2024, 3)
-  const data = await getCounters(id.value, 2024)
-  console.log(data)
-}
 </script>
 
 <template>
-  <b>Login</b>
-  <div>logged: {{ isLogged }}</div>
-  <div>loading: {{ isLoading }}</div>
-  <div>error: {{ message }}</div>
-  <div>id: {{ id }}</div>
-  <button @click="login">TEST</button>
-  <button @click="push">push</button>
-  <button @click="get">get</button>
+  <main>
+    <VaCard class="login-form">
+      <VaTabs v-model="activeTab">
+        <template #tabs>
+          <VaTab>Логин</VaTab>
+          <VaTab>Регистрация</VaTab>
+        </template>
+      </VaTabs>
+      <div>logged: {{ isLogged }}</div>
+      <div>loading: {{ isLoading }}</div>
+      <div>error: {{ message }}</div>
+      <div>id: {{ id }}</div>
+      <button @click="login">LOGIN</button>
+    </VaCard>
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  height: 100%;
+}
+.login-form {
+  max-width: 500px;
+  width: 90%;
+  padding: 20px;
+}
+</style>

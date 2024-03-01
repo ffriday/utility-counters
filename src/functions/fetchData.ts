@@ -1,7 +1,23 @@
-import { DBPaths, type Counters } from '@/constants';
+import { v4 as uuidv4 } from 'uuid';
+import { DBPaths, type Counters, type Apart } from '@/constants';
 import { db } from '@/main';
 import { collection, doc, getDoc, getDocs, setDoc, type DocumentData } from 'firebase/firestore';
 
+export const createApart = async (userId: string, name: string) => {
+  const counterRef = collection(db, DBPaths.apart);
+  const apart: Apart = {
+    name: name,
+    owner: userId,
+    link: uuidv4(),
+    shared: false
+  }
+  return await setDoc(doc(counterRef), apart);
+}
+
+export const updateApart = async (apartId: string, apart: Partial<Apart>) => {
+  const counterRef = collection(db, DBPaths.apart);
+  return await setDoc(doc(counterRef, apartId), apart);
+}
 
 export const pushCounters = async (id: string, year: number, month: number, counters: Counters) => {
   const counterRef = collection(db, DBPaths.users, id, DBPaths.year, year.toString(), DBPaths.month);
