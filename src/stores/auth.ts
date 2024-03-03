@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '@/main'
-import { useErrorStore } from './error'
+import { MessageType, useInfoStore } from './info'
 import { myHandleError } from '@/functions'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -40,13 +40,13 @@ const sendAuthRequest = async (
   method: typeof createUserWithEmailAndPassword | typeof signInWithEmailAndPassword,
   errorMessage: string): Promise<string | null | undefined> => {
 
-  const errorStore = useErrorStore()
+  const errorStore = useInfoStore()
   try {
     const response = await method(auth, email, password);
     if (response) {
       return response.user.uid
     } else {
-      errorStore.throwError(errorMessage)
+      errorStore.showMessage(errorMessage, MessageType.error)
       return null
     }
   } catch (err) {

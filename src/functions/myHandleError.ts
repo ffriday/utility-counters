@@ -1,9 +1,9 @@
-import { useErrorStore } from '../stores/error'
+import { MessageType, useInfoStore } from '../stores/info'
 
 export const myHandleError = (err: unknown) => {
-  const errorStore = useErrorStore()
+  const errorStore = useInfoStore()
   if (err instanceof Error) {
-    errorStore.throwError(err.message)
+    errorStore.showMessage(err.message, MessageType.error)
   } else {
     console.error("Unknown error:", err);
   }

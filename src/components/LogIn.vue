@@ -26,25 +26,32 @@ const registerData = reactive({
 });
 
 const login = async () => {
-  if(validateLogin()) {
+  if (validateLogin()) {
     await logIn(loginData.login, loginData.password)
     if (isLogged) router.push("/")
   }
 }
 
 const reg = async () => {
-  if(validateRegister()) {
+  if (validateRegister()) {
     await register(registerData.login, registerData.password)
     if (isLogged) router.push("/")
   }
 }
 
+//TEST
 const loginTest = async () => {
   if (isLogged.value) {
     logOut()
   } else {
     logIn('test@test.ru', 'qweQWE123!@#');
   }
+}
+
+import { MessageType, useInfoStore } from '@/stores/info';
+const infoStore = useInfoStore()
+const errorTest = async () => {
+  infoStore.showMessage('LALALA', MessageType.error)
 }
 </script>
 
@@ -88,10 +95,11 @@ const loginTest = async () => {
             (v) => Boolean(v) || 'Подтвердите пароль',
             (v) => v === registerData.password || 'Пароли не совпадают',
           ]" />
-          <VaButton :disabled="isLoading" @click="reg">Регистрация</VaButton>
+        <VaButton :disabled="isLoading" @click="reg">Регистрация</VaButton>
       </VaForm>
-      
+
       <button @click="loginTest">TEST LOGIN</button>
+      <button @click="errorTest">TEST ERROR</button>
     </VaCard>
   </main>
 </template>

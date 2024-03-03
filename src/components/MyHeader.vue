@@ -1,13 +1,33 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import { useInfoStore } from '@/stores/info';
 import { useTheme, navLinks } from '@/functions';
-import { useBreakpoint } from "vuestic-ui";
-import { computed } from 'vue';
+import { useBreakpoint, useToast } from "vuestic-ui";
+import { computed, ref, watch, type Ref } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const store = useAuthStore()
 const { headerColors } = useTheme()
+const infoStore = useInfoStore()
+const { isVisible, message, messageType } = storeToRefs(infoStore)
 const breakpoint = useBreakpoint()
+const { init, close } = useToast()
 const menuItems = computed(() => navLinks(store.isLogged))
+
+watch(isVisible, () => {
+  const toastId: Ref<null | string> = ref(null)
+  if (isVisible.value) {
+    toastId.value = init({
+      message: message.value,
+      offsetY: 10,
+      color: messageType.value,
+    })
+  } else if (toastId.value) {
+    close(toastId.value)
+  }
+})
+
+
 </script>
 
 <template>
