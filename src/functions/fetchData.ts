@@ -45,3 +45,15 @@ export const getCounters = async (id: string, year: number): Promise<Counters[] 
     return undefined;
   }
 }
+
+export const getProjects = async () => {
+  const countersRef = collection(db, DBPaths.apart);
+  const docSnap = await getDocs(countersRef);
+  if (!docSnap.empty) {
+    const data: DocumentData[] = [];
+    docSnap.forEach((doc) => data.push(doc.data()));
+    return data as Counters[];
+  } else {
+    return undefined;
+  }
+}

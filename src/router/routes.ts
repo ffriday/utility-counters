@@ -1,8 +1,8 @@
-import { LogInVue } from '@/components'
 import { MyRoutes } from '@/constants'
-import { myHomeVue, NotFoundVue } from '@/pages'
+import { myHomeVue, NotFoundVue, LogInVue } from '@/pages'
+import type { RouteRecordRaw } from 'vue-router'
 
-export const routes = [
+export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: MyRoutes.home,

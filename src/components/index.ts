@@ -1,4 +1,5 @@
 import MyHeaderVue from './MyHeader.vue'
-import LogInVue from './LogIn.vue'
+import ProjectAddVue from './ProjectAdd.vue'
+import ProjectViewVue from './ProjectView.vue'
 
-export { MyHeaderVue, LogInVue }
+export { MyHeaderVue, ProjectAddVue, ProjectViewVue }

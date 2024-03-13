@@ -3,9 +3,10 @@ import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { reactive, ref } from 'vue';
 import { useForm } from "vuestic-ui";
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter()
+const route = useRoute()
 
 const { validate: validateLogin } = useForm("loginForm");
 const { validate: validateRegister } = useForm("registerForm");
@@ -13,7 +14,9 @@ const { validate: validateRegister } = useForm("registerForm");
 const authStore = useAuthStore()
 const { logIn, logOut, register } = authStore
 const { isLogged, isLoading } = storeToRefs(authStore)
-const activeTab = ref(0)
+
+const isRegister = route.query.register === "true"
+const activeTab = ref(isRegister ? 1 : 0)
 
 const loginData = reactive({
   login: "",
@@ -28,23 +31,24 @@ const registerData = reactive({
 const login = async () => {
   if (validateLogin()) {
     await logIn(loginData.login, loginData.password)
-    if (isLogged) router.push("/")
+    if (isLogged.value) router.push("/")
   }
 }
 
 const reg = async () => {
   if (validateRegister()) {
     await register(registerData.login, registerData.password)
-    if (isLogged) router.push("/")
+    if (isLogged.value) router.push("/")
   }
 }
 
 //TEST
 const loginTest = async () => {
   if (isLogged.value) {
-    logOut()
+    await logOut()
   } else {
-    logIn('test@test.ru', 'qweQWE123!@#');
+    await logIn('test@test.ru', 'qweQWE123!@#');
+    if (isLogged.value) router.push("/")
   }
 }
 

@@ -46,15 +46,6 @@ watch(isVisible, () => {
       </VaNavbarItem>
     </template>
   </VaNavbar>
-  <!-- <VaSidebar v-if="store.isLogged && breakpoint.xs">
-    <VaSidebarItem class="sidebarMenu">
-      <VaSidebarItemContent v-for="item in menuItems" :key="item" class="hidden sm:block">
-        <VaSidebarItemTitle>
-          <router-link :to="item.link" class="link">{{ item.title }}</router-link>
-        </VaSidebarItemTitle>
-      </VaSidebarItemContent>
-    </VaSidebarItem>
-  </VaSidebar> -->
 </template>
 
 <style scoped>
