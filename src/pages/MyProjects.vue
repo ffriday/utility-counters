@@ -33,8 +33,6 @@ data.value = await fetchData()
     <template #default>
       <main>
         <ProjectViewVue v-for="item in data" :key="item.link" :data="item" />
-        <!-- data
-        {{ data }} -->
       </main>
     </template>
     <template #fallback>
