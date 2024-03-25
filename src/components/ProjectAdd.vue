@@ -25,6 +25,7 @@ const add = () => {
       <VaForm ref="apartForm" class="form">
         <VaInput v-model="apartData.text" label="имя" name="name" :rules="[
           (v) => Boolean(v) || 'Введите название',
+          (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
         ]" />
         <VaSwitch v-model="apartData.isShared" true-label="Доступ по ссылке открыт" false-label="Доступ по ссылке закрыт" />
         <VaButton :disabled="isLoading" @click="add">Войти</VaButton>

@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { DBPaths, type Counters, type Apart } from '@/constants';
 import { db } from '@/main';
-import { collection, doc, getDoc, getDocs, setDoc, type DocumentData } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, setDoc, type DocumentData, query, where, type WhereFilterOp } from 'firebase/firestore';
+import { myHandleError } from '.';
 
 export const createApart = async (userId: string, name: string) => {
   const counterRef = collection(db, DBPaths.apart);
@@ -57,3 +58,19 @@ export const getProjects = async () => {
     return undefined;
   }
 }
+
+export const fetchAparts = async (prop: string, condition: WhereFilterOp, value: string) => {
+  const apartCollection = collection(db, DBPaths.apart)
+  try {
+    const apartSpanshot = await getDocs(query(apartCollection, where(prop, condition, value)))
+    const data: DocumentData[] = []
+    apartSpanshot.forEach((doc) => {
+      data.push(doc.data())
+    })
+    return data as Apart[]
+  } catch (err) {
+    myHandleError(err)
+  }
+}
+
+export const fetchApartsByOwner = async (id: string) => await fetchAparts('owner', '==', id)

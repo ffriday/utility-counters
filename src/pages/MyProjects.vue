@@ -1,30 +1,15 @@
 <script setup lang="ts">
-import { DBPaths, type Apart } from '@/constants';
-import { myHandleError } from '@/functions';
-import { db } from '@/main';
-import { collection, getDocs, type DocumentData, query, where } from 'firebase/firestore';
+import { type Apart } from '@/constants';
 import { ref, type Ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import {ProjectViewVue} from '@/components'
+import { ProjectViewVue } from '@/components'
+import {fetchApartsByOwner} from '@/functions'
 
 const { id } = storeToRefs(useAuthStore())
 
-const fetchData = async () => {
-  const apartCollection = collection(db, DBPaths.apart)
-  try {
-    const apartSpanshot = await getDocs(query(apartCollection, where('owner', '==', id.value)))
-    const data: DocumentData[] = []
-    apartSpanshot.forEach((doc) => {
-      data.push(doc.data())
-    })
-    return data as Apart[]
-  } catch (err) {
-    myHandleError(err)
-  }
-}
 const data: Ref<Apart[] | undefined> = ref(undefined)
-data.value = await fetchData()
+data.value = await fetchApartsByOwner(id.value)
 
 </script>
 

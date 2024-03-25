@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Apart } from '@/constants';
+import { MyRoutes, type Apart } from '@/constants';
 import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -9,13 +9,13 @@ const props = defineProps(['data'])
 const data = ref(props.data) as Ref<Apart>
 
 const go = () => {
-  router.push(data.value.link)
+  router.push(`${MyRoutes.apart}/${data.value.link}`)
 }
 </script>
 
 <template>
   <VaCard class="apart-card" @click="go">
-    <VaCardTitle>Квартира {{ data.name }}</VaCardTitle>
+    <VaCardTitle class="apart-card-title">Квартира {{ data.name }}</VaCardTitle>
     <VaCardContent v-if="data">
       <p>Доступ по ссылке: {{ data.shared ? "Открыт" : "Закрыт" }}</p>
     </VaCardContent>

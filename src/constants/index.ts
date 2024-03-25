@@ -5,7 +5,8 @@ export enum MyRoutes {
   register = 'register',
   add = 'add',
   archive = 'archive',
-  notFound = 'not-found'
+  notFound = 'not-found',
+  apart = 'apart'
 }
 
 export enum DBPaths {
