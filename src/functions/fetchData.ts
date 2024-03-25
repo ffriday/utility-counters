@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { DBPaths, type Counters, type Apart } from '@/constants';
+import { DBPaths, type Counters, type Apart, type ApartDoc } from '@/constants';
 import { db } from '@/main';
-import { collection, doc, getDoc, getDocs, setDoc, type DocumentData, query, where, type WhereFilterOp } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, setDoc, type DocumentData, query, where, type WhereFilterOp, onSnapshot } from 'firebase/firestore';
 import { myHandleError } from '.';
 
 export const createApart = async (userId: string, name: string) => {
@@ -65,9 +65,12 @@ export const fetchAparts = async (prop: string, condition: WhereFilterOp, value:
     const apartSpanshot = await getDocs(query(apartCollection, where(prop, condition, value)))
     const data: DocumentData[] = []
     apartSpanshot.forEach((doc) => {
-      data.push(doc.data())
+      data.push({
+        ...doc.data(),
+        id: doc.id
+      })
     })
-    return data as Apart[]
+    return data as ApartDoc[]
   } catch (err) {
     myHandleError(err)
   }

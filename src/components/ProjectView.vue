@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import { MyRoutes, type Apart } from '@/constants';
+import { MyRoutes, type ApartDoc, DBPaths } from '@/constants';
+import { myHandleError } from '@/functions';
+import { db } from '@/main';
+import { deleteDoc, doc } from 'firebase/firestore';
 import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { ProjectCard } from '.';
 
 const router = useRouter()
 
 const props = defineProps(['data'])
-const data = ref(props.data) as Ref<Apart>
+const data = ref(props.data) as Ref<ApartDoc>
 
-const go = () => {
-  router.push(`${MyRoutes.apart}/${data.value.link}`)
+// const go = () => {
+//   router.push(`${MyRoutes.apart}/${data.value.link}`)
+// }
+
+const remove = async () => {
+  try {
+    await deleteDoc(doc(db, DBPaths.apart, data.value.id))
+  } catch (err) {
+    myHandleError(err)
+  }
 }
 </script>
 
 <template>
-  <VaCard class="apart-card" @click="go">
-    <VaCardTitle class="apart-card-title">Квартира {{ data.name }}</VaCardTitle>
+  <ProjectCard>
+    <VaCardTitle class="apart-card-title">{{ data.name }}</VaCardTitle>
     <VaCardContent v-if="data" class="apart-card-line">
       <p>Открыть:</p>
       <VaIcon class="material-icons">
@@ -39,24 +51,14 @@ const go = () => {
     </VaCardContent>
     <VaCardContent v-if="data" class="apart-card-line">
       <p>Удалить:</p>
-      <VaIcon class="material-icons">
+      <VaIcon class="material-icons" @click="remove">
         delete
       </VaIcon>
     </VaCardContent>
-  </VaCard>
+  </ProjectCard>
 </template>
 
 <style scoped>
-.apart-card {
-  max-width: 400px;
-  transition: box-shadow 0.3s ease;
-}
-
-.apart-card:hover {
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 10px 0px;
-  cursor: pointer;
-}
-
 .apart-card-line {
   width: 100%;
   display: flex;

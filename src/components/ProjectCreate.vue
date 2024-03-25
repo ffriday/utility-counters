@@ -1,33 +1,32 @@
 <script setup lang="ts">
+import { createApart } from '@/functions/fetchData';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+import { ProjectCard } from '.';
+import { ref } from 'vue';
 
-const go = () => {
-  console.log("go")
+const { id } = storeToRefs(useAuthStore())
+
+const name = ref('Моя квартира')
+
+const create = async () => {
+  await createApart(id.value, name.value)
 }
 </script>
 
 <template>
-  <VaCard class="apart-card" @click="go">
+  <ProjectCard>
     <p>Добавить квартиру</p>
-    <VaIcon class="material-icons">
-      add
-    </VaIcon>
-  </VaCard>
+    <VaInput v-model="name" label="имя" name="name" class="apart-input" :rules="[
+      (v) => Boolean(v) || 'Введите название',
+      (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
+    ]" />
+    <VaButton @click="create">Добавить</VaButton>
+  </ProjectCard>
 </template>
 
 <style scoped>
-.apart-card {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  max-width: 400px;
-  min-width: 200px;
-  transition: box-shadow 0.3s ease;
-}
-
-.apart-card:hover {
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 10px 0px;
-  cursor: pointer;
-}
+  .apart-input {
+    max-width: 90%;
+  }
 </style>

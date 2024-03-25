@@ -28,3 +28,7 @@ export type Apart = {
   link: string;
   shared: boolean;
 }
+
+export type ApartDoc = Apart & {
+  id: string;
+}
