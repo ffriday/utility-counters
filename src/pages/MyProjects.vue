@@ -3,8 +3,8 @@ import { type Apart } from '@/constants';
 import { ref, type Ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { ProjectViewVue } from '@/components'
-import {fetchApartsByOwner} from '@/functions'
+import { ProjectViewVue, ProjectCreateVue } from '@/components'
+import { fetchApartsByOwner } from '@/functions'
 
 const { id } = storeToRefs(useAuthStore())
 
@@ -18,6 +18,7 @@ data.value = await fetchApartsByOwner(id.value)
     <template #default>
       <main>
         <ProjectViewVue v-for="item in data" :key="item.link" :data="item" />
+        <ProjectCreateVue />
       </main>
     </template>
     <template #fallback>

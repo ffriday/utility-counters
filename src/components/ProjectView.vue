@@ -16,8 +16,32 @@ const go = () => {
 <template>
   <VaCard class="apart-card" @click="go">
     <VaCardTitle class="apart-card-title">Квартира {{ data.name }}</VaCardTitle>
-    <VaCardContent v-if="data">
-      <p>Доступ по ссылке: {{ data.shared ? "Открыт" : "Закрыт" }}</p>
+    <VaCardContent v-if="data" class="apart-card-line">
+      <p>Открыть:</p>
+      <VaIcon class="material-icons">
+        open_in_full
+      </VaIcon>
+    </VaCardContent>
+    <VaCardContent v-if="data" class="apart-card-line">
+      <p>Доступ по ссылке:</p>
+      <VaIcon class="material-icons" v-if="data.shared" color="primary">
+        link
+      </VaIcon>
+      <VaIcon class="material-icons" v-else color="secondary">
+        link_off
+      </VaIcon>
+    </VaCardContent>
+    <VaCardContent v-if="data" class="apart-card-line">
+      <p>Копировать ссылку:</p>
+      <VaIcon class="material-icons">
+        share
+      </VaIcon>
+    </VaCardContent>
+    <VaCardContent v-if="data" class="apart-card-line">
+      <p>Удалить:</p>
+      <VaIcon class="material-icons">
+        delete
+      </VaIcon>
     </VaCardContent>
   </VaCard>
 </template>
@@ -31,5 +55,12 @@ const go = () => {
 .apart-card:hover {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 10px 0px;
   cursor: pointer;
+}
+
+.apart-card-line {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 </style>
