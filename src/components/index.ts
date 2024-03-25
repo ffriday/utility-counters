@@ -1,7 +1,6 @@
 import MyHeaderVue from './MyHeader.vue'
-import ProjectAddVue from './ProjectAdd.vue'
 import ProjectViewVue from './ProjectView.vue'
 import ProjectCreateVue from './ProjectCreate.vue'
 import ProjectCard from './ProjectCard.vue'
 
-export { MyHeaderVue, ProjectAddVue, ProjectViewVue, ProjectCreateVue, ProjectCard }
+export { MyHeaderVue, ProjectViewVue, ProjectCreateVue, ProjectCard }

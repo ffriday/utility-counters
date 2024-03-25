@@ -27,7 +27,7 @@ const remove = async () => {
 
 <template>
   <ProjectCard>
-    <VaCardTitle class="apart-card-title">{{ data.name }}</VaCardTitle>
+    <VaCardTitle>{{ data.name }}</VaCardTitle>
     <VaCardContent v-if="data" class="apart-card-line">
       <p>Открыть:</p>
       <VaIcon class="material-icons">

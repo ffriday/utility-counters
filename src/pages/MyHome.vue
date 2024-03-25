@@ -9,7 +9,7 @@ const { isLogged } = storeToRefs(useAuthStore())
 </script>
 
 <template>
-<main>
+<div>
   <h1 v-if="!isLogged">HOME</h1>
   <Suspense v-else>
     <template #default>
@@ -19,11 +19,14 @@ const { isLogged } = storeToRefs(useAuthStore())
       <div>Loading...</div>
     </template>
   </Suspense>
-</main>
+</div>
 </template>
 
 <style scoped>
-main {
+div {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 </style>

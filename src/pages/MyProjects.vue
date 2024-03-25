@@ -34,7 +34,7 @@ onSnapshot(q, (apartSpanshot) => {
         cached
       </VaIcon>
     </ProjectCard>
-    <ProjectViewVue v-for="item in data" :key="item.link" :data="item" />
+    <ProjectViewVue v-for="item in data" :key="item.id" :data="item" />
     <ProjectCreateVue />
   </main>
 </template>
@@ -44,6 +44,7 @@ main {
   width: 90%;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem;
