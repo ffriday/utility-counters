@@ -41,12 +41,13 @@ onSnapshot(q, (apartSpanshot) => {
 
 <style scoped>
 main {
-  width: 90%;
+  width: fit-content;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem;
+  margin: 0 auto;
 }
 </style>

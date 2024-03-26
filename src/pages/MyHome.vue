@@ -25,6 +25,8 @@ const { isLogged } = storeToRefs(useAuthStore())
 <style scoped>
 div {
   width: 100%;
+  height: calc(100vh - 72px);
+  min-height: calc(100vh - 72px);
   display: flex;
   justify-content: center;
   align-items: flex-start;

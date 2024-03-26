@@ -12,9 +12,9 @@ const router = useRouter()
 const props = defineProps(['data'])
 const data = ref(props.data) as Ref<ApartDoc>
 
-// const go = () => {
-//   router.push(`${MyRoutes.apart}/${data.value.link}`)
-// }
+const open = () => {
+  router.push(`${MyRoutes.apart}/${data.value.id}`)
+}
 
 const remove = async () => {
   try {
@@ -28,7 +28,7 @@ const remove = async () => {
 <template>
   <ProjectCard>
     <VaCardTitle>{{ data.name }}</VaCardTitle>
-    <VaCardContent v-if="data" class="apart-card-line">
+    <VaCardContent v-if="data" class="apart-card-line" @click="open">
       <p>Открыть:</p>
       <VaIcon class="material-icons">
         open_in_full
@@ -49,9 +49,9 @@ const remove = async () => {
         share
       </VaIcon>
     </VaCardContent>
-    <VaCardContent v-if="data" class="apart-card-line">
+    <VaCardContent v-if="data" class="apart-card-line" @click="remove">
       <p>Удалить:</p>
-      <VaIcon class="material-icons" @click="remove">
+      <VaIcon class="material-icons">
         delete
       </VaIcon>
     </VaCardContent>
@@ -64,5 +64,11 @@ const remove = async () => {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+  &:hover {
+    scale: 1.01;
+    transition: 0.2s ease;
+  }
 }
 </style>
