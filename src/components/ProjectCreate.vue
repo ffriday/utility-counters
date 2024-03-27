@@ -10,12 +10,14 @@ import { myHandleError } from '@/functions';
 const { id } = storeToRefs(useAuthStore())
 const { validate } = useForm("createForm");
 
-const name = ref('Моя квартира')
+const initialName = 'Моя квартира'
+const name = ref(initialName)
 
 const create = async () => {
   if (validate()) {
     try {
       await createApart(id.value, name.value)
+      name.value = initialName
     } catch (err) {
       myHandleError(err)
     }
@@ -27,7 +29,7 @@ const create = async () => {
   <ProjectCard>
     <VaCardTitle>Добавить квартиру</VaCardTitle>
     <VaForm ref="createForm" class="apart-input">
-      <VaInput v-model="name" label="имя" name="name" :rules="[
+      <VaInput v-model="name" label="имя" name="name" @keyup.enter="create" :rules="[
         (v) => Boolean(v) || 'Введите название',
         (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
       ]" />
