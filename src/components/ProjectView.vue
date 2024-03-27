@@ -6,14 +6,34 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ProjectCard } from '.';
+import { MessageType, useInfoStore } from '@/stores/info';
+import { updateApart } from '@/functions/fetchData';
 
 const router = useRouter()
+const infoStore = useInfoStore()
 
 const props = defineProps(['data'])
 const data = ref(props.data) as Ref<ApartDoc>
 
 const open = () => {
   router.push(`${MyRoutes.apart}/${data.value.id}`)
+}
+
+const toggleShared = async () => {
+  try {
+    await updateApart(data.value.id, {...data.value, shared: !data.value.shared})
+  } catch (err) {
+    myHandleError(err)
+  }
+}
+
+const copy = async () => {
+  try {
+    await navigator.clipboard.writeText(`${window.location.href}shared/${data.value.link}`)
+    infoStore.showMessage('Ссылка скопирована', MessageType.info)
+  } catch (err) {
+    myHandleError(err)
+  }
 }
 
 const remove = async () => {
@@ -34,7 +54,7 @@ const remove = async () => {
         open_in_full
       </VaIcon>
     </VaCardContent>
-    <VaCardContent v-if="data" class="apart-card-line">
+    <VaCardContent v-if="data" class="apart-card-line" @click="toggleShared">
       <p>Доступ по ссылке:</p>
       <VaIcon class="material-icons" v-if="data.shared" color="primary">
         link
@@ -43,7 +63,7 @@ const remove = async () => {
         link_off
       </VaIcon>
     </VaCardContent>
-    <VaCardContent v-if="data" class="apart-card-line">
+    <VaCardContent v-if="data" class="apart-card-line" @click="copy">
       <p>Копировать ссылку:</p>
       <VaIcon class="material-icons">
         share

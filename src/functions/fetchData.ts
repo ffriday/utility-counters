@@ -15,7 +15,7 @@ export const createApart = async (userId: string, name: string) => {
   return await setDoc(doc(counterRef), apart);
 }
 
-export const updateApart = async (apartId: string, apart: Partial<Apart>) => {
+export const updateApart = async (apartId: string, apart: Apart) => {
   const counterRef = collection(db, DBPaths.apart);
   return await setDoc(doc(counterRef, apartId), apart);
 }

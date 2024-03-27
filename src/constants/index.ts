@@ -31,4 +31,5 @@ export type Apart = {
 
 export type ApartDoc = Apart & {
   id: string;
+  key: string;
 }
