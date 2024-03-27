@@ -1,5 +1,5 @@
 import { MyRoutes } from '@/constants'
-import { myHomeVue, NotFoundVue, LogInVue } from '@/pages'
+import { myHomeVue, NotFoundVue, LogInVue, ApartViewVue } from '@/pages'
 import type { RouteRecordRaw } from 'vue-router'
 
 export const routes: RouteRecordRaw[] = [
@@ -17,6 +17,11 @@ export const routes: RouteRecordRaw[] = [
     path: `/${MyRoutes.logout}`,
     name: MyRoutes.logout,
     component: myHomeVue
+  },
+  {
+    path: `/${MyRoutes.apart}/:id`,
+    name: MyRoutes.apart,
+    component: ApartViewVue
   },
   {
     path: '/:pathMatch(.*)*',

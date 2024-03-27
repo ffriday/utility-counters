@@ -9,10 +9,11 @@ import { db } from '@/main';
 import { myHandleError } from '@/functions';
 
 const { id } = storeToRefs(useAuthStore())
+const isLoading = ref(true)
 
 const data: Ref<ApartDoc[]> = ref([])
 const q = query(collection(db, DBPaths.apart), where("owner", "==", id.value))
-const unsubscribe = onSnapshot(q, (apartSpanshot) => {
+onSnapshot(q, (apartSpanshot) => {
   const rawData: DocumentData[] = []
   apartSpanshot.forEach((doc) => {
     rawData.push({
@@ -22,6 +23,7 @@ const unsubscribe = onSnapshot(q, (apartSpanshot) => {
     })
   })
   data.value = rawData as ApartDoc[]
+  isLoading.value = false
 }, (err) => {
   myHandleError(err)
 })
@@ -30,7 +32,7 @@ const unsubscribe = onSnapshot(q, (apartSpanshot) => {
 
 <template>
   <main>
-    <ProjectCard v-if="!data.length">
+    <ProjectCard v-if="isLoading">
       <p>Загрузка</p>
       <VaIcon class="material-icons" spin>
         cached

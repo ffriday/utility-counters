@@ -21,7 +21,12 @@ const open = () => {
 
 const toggleShared = async () => {
   try {
-    await updateApart(data.value.id, {...data.value, shared: !data.value.shared})
+    await updateApart(data.value.id, { 
+      name: data.value.name,
+      owner: data.value.owner,
+      link: data.value.link,
+      shared: !data.value.shared
+    })
   } catch (err) {
     myHandleError(err)
   }
