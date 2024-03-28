@@ -7,8 +7,8 @@ type NavLink = {
 
 export const navLinks = (isLogged: boolean) => {
   const authLinks: NavLink[] = [
-    { title: 'ДОБАВИТЬ ПОКАЗАНИЯ', link: MyRoutes.add },
-    { title: 'АРХИВ', link: MyRoutes.archive },
+    // { title: 'ДОБАВИТЬ ПОКАЗАНИЯ', link: MyRoutes.add },
+    // { title: 'АРХИВ', link: MyRoutes.archive },
     { title: 'ВЫХОД', link: MyRoutes.logout }
   ]
   const anonLinks: NavLink[] = [

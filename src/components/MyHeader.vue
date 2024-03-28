@@ -42,7 +42,7 @@ watch(isVisible, () => {
         <VaIcon name="dashboard" />
       </VaNavbarItem>
       <VaNavbarItem v-else v-for="item in menuItems" :key="item" class="hidden sm:block">
-        <router-link :to="item.link" class="link">{{ item.title }}</router-link>
+        <router-link :to="{name: item.link}" class="link">{{ item.title }}</router-link>
       </VaNavbarItem>
     </template>
   </VaNavbar>
