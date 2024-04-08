@@ -4,7 +4,7 @@ import { db } from '@/main';
 import { collection, doc, getDoc, getDocs, setDoc, type DocumentData, query, where, type WhereFilterOp } from 'firebase/firestore';
 import { myHandleError } from '.';
 
-export const createApart = async (userId: string, name: string) => {
+export const createApart = async (userId: string, name: string, tariff: CounterParams) => {
   const counterRef = collection(db, DBPaths.apart);
   const apart: Apart = {
     name: name,
@@ -12,12 +12,7 @@ export const createApart = async (userId: string, name: string) => {
     link: uuidv4(),
     balance: 0,
     shared: false,
-    tariff: {
-      electricity: 0,
-      coldWater: 0,
-      hotWater: 0,
-      drainage: 0
-    }
+    tariff,
   }
   return await setDoc(doc(counterRef), apart);
 }

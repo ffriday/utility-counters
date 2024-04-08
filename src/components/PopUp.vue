@@ -35,8 +35,9 @@ const props = defineProps(['isVisible'])
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  max-width: 500px;
+  max-width: 300px;
   width: 90%;
+  min-height: 300px;
   padding: 20px;
   background-color: white;
   border-radius: var(--va-card-border-radius);
