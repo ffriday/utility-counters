@@ -25,7 +25,9 @@ const toggleShared = async () => {
       name: data.value.name,
       owner: data.value.owner,
       link: data.value.link,
-      shared: !data.value.shared
+      shared: !data.value.shared,
+      balance: data.value.balance,
+      tariff: data.value.tariff
     })
   } catch (err) {
     myHandleError(err)

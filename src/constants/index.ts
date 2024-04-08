@@ -16,17 +16,20 @@ export enum DBPaths {
   apart = 'apart',
 }
 
-export type Counters = {
+export type CounterParams = {
   electricity: number;
   coldWater: number;
   hotWater: number;
+  drainage: number;
 }
 
 export type Apart = {
   name: string;
   owner: string;
   link: string;
+  balance: number;
   shared: boolean;
+  tariff: CounterParams;
 }
 
 export type ApartDoc = Apart & {

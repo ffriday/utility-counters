@@ -21,6 +21,7 @@ watch(isVisible, () => {
       message: message.value,
       offsetY: 10,
       color: messageType.value,
+      position: 'bottom-right'
     })
   } else if (toastId.value) {
     close(toastId.value)

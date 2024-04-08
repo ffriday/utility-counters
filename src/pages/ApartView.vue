@@ -22,12 +22,13 @@ onSnapshot(doc(db, DBPaths.apart, apartId.toString()), (apartSpanshot) => {
 })
 
 const data = ref({})
-const q = query(collection(db, DBPaths.apart, apartId.toString(), "2024"))
+const q = query(collection(db, DBPaths.apart, apartId.toString(), "year", "2024", "month"))
 onSnapshot(q, (apartSpanshot) => {
   const rawData: DocumentData[] = []
   apartSpanshot.forEach((doc) => {
     rawData.push({
       ...doc.data(),
+      id: doc.id,
     })
   })
   console.log(rawData)
@@ -38,7 +39,7 @@ onSnapshot(q, (apartSpanshot) => {
 </script>
 
 <template>
-  <h5 v-if="apart" class="va-h5">{{ apart.name }}</h5>
+  <h5 v-if="apart" class="va-h5">{{ apart.name }}. Баланс: {{ apart.balance }}</h5>
   <main>
   </main>
 </template>

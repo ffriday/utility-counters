@@ -2,7 +2,7 @@
 import { createApart } from '@/functions/fetchData';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { ProjectCard } from '.';
+import { PopUp, ProjectCard } from '.';
 import { ref } from 'vue';
 import { useForm } from 'vuestic-ui';
 import { myHandleError } from '@/functions';
@@ -12,8 +12,10 @@ const { validate } = useForm("createForm");
 
 const initialName = 'Моя квартира'
 const name = ref(initialName)
+const isPopupVisible = ref(false)
 
 const create = async () => {
+  // isPopupVisible.value = true;
   if (validate()) {
     try {
       await createApart(id.value, name.value)
@@ -26,6 +28,9 @@ const create = async () => {
 </script>
 
 <template>
+  <PopUp :isVisible=isPopupVisible @togglePopUp="isPopupVisible = !isPopupVisible">
+    OLOLO
+  </PopUp>
   <ProjectCard>
     <VaCardTitle>Добавить квартиру</VaCardTitle>
     <VaForm ref="createForm" class="apart-input">
