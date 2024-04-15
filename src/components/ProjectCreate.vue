@@ -13,22 +13,30 @@ const { validate } = useForm("createForm");
 
 const initialName = 'Моя квартира'
 const name = ref(initialName)
-const counterParams: Ref<CounterParams> = ref({
+const initialCounterParams: CounterParams = {
   electricity: 0,
   coldWater: 0,
   hotWater: 0,
   drainage: 0,
-})
+}
+const counterParams: Ref<CounterParams> = ref(initialCounterParams)
 const isPopupVisible = ref(false)
+const isPending = ref(false)
 
 const create = async () => {
   if (validate()) {
     try {
+      isPending.value = true
+      console.log(isPending.value)
       await createApart(id.value, name.value, counterParams.value)
       name.value = initialName
       isPopupVisible.value = false
+      counterParams.value=initialCounterParams
     } catch (err) {
       myHandleError(err)
+    } finally {
+      isPending.value = false
+      console.log(isPending.value)
     }
   }
 }
@@ -63,7 +71,7 @@ const tariffList: TariffItem[] = [
   </PopUp>
   <ProjectCard>
     <VaCardTitle>Добавить квартиру</VaCardTitle>
-    <VaButton @click="isPopupVisible = true" class="add">Добавить</VaButton>
+    <VaButton @click="isPopupVisible = true" class="add" :disabled="isPending">Добавить</VaButton>
   </ProjectCard>
 </template>
 

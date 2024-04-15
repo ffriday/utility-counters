@@ -3,8 +3,8 @@ const props = defineProps(['isVisible'])
 </script>
 
 <template>
-  <div class="overlay" v-if="props.isVisible" @click="$emit('togglePopUp')">
-    <div class="box" @click.stop>
+  <div class="overlay" v-if="props.isVisible" @mousedown="$emit('togglePopUp')">
+    <div class="box" @mousedown.stop>
       <slot></slot>
     </div>
   </div>
