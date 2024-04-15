@@ -32,6 +32,19 @@ const create = async () => {
     }
   }
 }
+
+const tariffInputValidate = (v: string) => !Number.isNaN(Number(v)) && Number(v) > 0 || 'Введите тариф';
+type TariffItem = {
+  label: string;
+  name: keyof CounterParams;
+};
+
+const tariffList: TariffItem[] = [
+  { label: 'Электричество, р/кВт⋅ч', name: 'electricity' },
+  { label: 'Холодная вода, р/м3', name: 'coldWater' },
+  { label: 'Горячая вода, р/м3', name: 'hotWater' },
+  { label: 'Водоотведение, р', name: 'drainage' },
+];
 </script>
 
 <template>
@@ -43,18 +56,8 @@ const create = async () => {
     (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
   ]" />
       <VaCardTitle>Тарифы</VaCardTitle>
-      <VaInput v-model="counterParams.electricity" label="электричество, кВт⋅ч" name="electricity" type="number" :rules="[
-    (v) => !Number.isNaN(Number(v)) && Number(v) >= 0 || 'Введите тариф',
-  ]" />
-      <VaInput v-model="counterParams.coldWater" label="Холодная вода, м3" name="coldWater" type="number" :rules="[
-    (v) => !Number.isNaN(Number(v)) && Number(v) >= 0 || 'Введите тариф',
-  ]" />
-      <VaInput v-model="counterParams.hotWater" label="Горячая вода, м3" name="hotWater" type="number" :rules="[
-    (v) => !Number.isNaN(Number(v)) && Number(v) >= 0 || 'Введите тариф',
-  ]" />
-      <VaInput v-model="counterParams.drainage" label="Водоотведение, м3" name="drainage" type="number" :rules="[
-    (v) => !Number.isNaN(Number(v)) && Number(v) >= 0 || 'Введите тариф',
-  ]" />
+      <VaInput v-for="tariff in tariffList" :key="tariff.name" v-model="counterParams[tariff.name]"
+        :label="tariff.label" name="tariff" type="number" :rules="[tariffInputValidate]" />
       <VaButton @click="create" class="add">Создать</VaButton>
     </VaForm>
   </PopUp>
@@ -74,5 +77,9 @@ const create = async () => {
 
 .add {
   margin-top: 0.5rem;
+}
+
+.va-card-title {
+  padding-left: 0;
 }
 </style>
