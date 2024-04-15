@@ -6,19 +6,12 @@ import { PopUp, ProjectCard } from '.';
 import { ref, type Ref } from 'vue';
 import { useForm } from 'vuestic-ui';
 import { myHandleError } from '@/functions';
-import type { CounterParams } from '@/constants';
+import { initialCounterParams, initialName, type CounterParams, type TariffItem } from '@/constants';
 
 const { id } = storeToRefs(useAuthStore())
 const { validate } = useForm("createForm");
-
-const initialName = 'Моя квартира'
 const name = ref(initialName)
-const initialCounterParams: CounterParams = {
-  electricity: 0,
-  coldWater: 0,
-  hotWater: 0,
-  drainage: 0,
-}
+
 const counterParams: Ref<CounterParams> = ref(initialCounterParams)
 const isPopupVisible = ref(false)
 const isPending = ref(false)
@@ -27,7 +20,6 @@ const create = async () => {
   if (validate()) {
     try {
       isPending.value = true
-      console.log(isPending.value)
       await createApart(id.value, name.value, counterParams.value)
       name.value = initialName
       isPopupVisible.value = false
@@ -36,16 +28,11 @@ const create = async () => {
       myHandleError(err)
     } finally {
       isPending.value = false
-      console.log(isPending.value)
     }
   }
 }
 
 const tariffInputValidate = (v: string) => !Number.isNaN(Number(v)) && Number(v) > 0 || 'Введите тариф';
-type TariffItem = {
-  label: string;
-  name: keyof CounterParams;
-};
 
 const tariffList: TariffItem[] = [
   { label: 'Электричество, р/кВт⋅ч', name: 'electricity' },

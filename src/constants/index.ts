@@ -36,3 +36,17 @@ export type ApartDoc = Apart & {
   id: string;
   key: string;
 }
+
+export type TariffItem = {
+  label: string;
+  name: keyof CounterParams;
+};
+
+export const initialCounterParams: CounterParams = {
+  electricity: 0,
+  coldWater: 0,
+  hotWater: 0,
+  drainage: 0,
+}
+
+export const initialName = 'Моя квартира'
