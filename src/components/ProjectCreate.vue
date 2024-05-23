@@ -23,7 +23,7 @@ const create = async () => {
       await createApart(id.value, name.value, counterParams.value)
       name.value = initialName
       isPopupVisible.value = false
-      counterParams.value=initialCounterParams
+      counterParams.value = initialCounterParams
     } catch (err) {
       myHandleError(err)
     } finally {
@@ -53,7 +53,10 @@ const tariffList: TariffItem[] = [
       <VaCardTitle>Тарифы</VaCardTitle>
       <VaInput v-for="tariff in tariffList" :key="tariff.name" v-model.number="counterParams[tariff.name]"
         :label="tariff.label" name="tariff" type="number" :rules="[tariffInputValidate]" />
-      <VaButton @click="create" class="add">Создать</VaButton>
+      <VaButton @click="create" class="add">
+        <VaInnerLoading v-if="isPending" loading color="secondary" />
+        {{ !isPending ? 'Создать' : '' }}
+      </VaButton>
     </VaForm>
   </PopUp>
   <ProjectCard>
@@ -71,6 +74,9 @@ const tariffList: TariffItem[] = [
 }
 
 .add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 0.5rem;
 }
 
