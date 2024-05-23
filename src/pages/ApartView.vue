@@ -8,10 +8,9 @@ import { db } from '@/main';
 import { DBPaths, type Apart } from '@/constants';
 import { myHandleError } from '@/functions';
 
-const { isLogged } = storeToRefs(useAuthStore())
+const { isLogged, id } = storeToRefs(useAuthStore())
 const apartId = useRoute().params.id
 
-const { id } = storeToRefs(useAuthStore())
 const isLoading = ref(true)
 
 const apart: Ref<Apart | undefined> = ref(undefined)
@@ -39,7 +38,7 @@ onSnapshot(q, (apartSpanshot) => {
 </script>
 
 <template>
-  <h5 v-if="apart" class="va-h5">{{ apart.name }}. Баланс: {{ apart.balance }}</h5>
+  <h4 v-if="apart" class="va-h4">{{ apart.name }}. Баланс: {{ apart.balance }}</h4>
   <main>
   </main>
 </template>

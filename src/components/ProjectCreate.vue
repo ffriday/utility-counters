@@ -51,7 +51,7 @@ const tariffList: TariffItem[] = [
     (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
   ]" />
       <VaCardTitle>Тарифы</VaCardTitle>
-      <VaInput v-for="tariff in tariffList" :key="tariff.name" v-model="counterParams[tariff.name]"
+      <VaInput v-for="tariff in tariffList" :key="tariff.name" v-model.number="counterParams[tariff.name]"
         :label="tariff.label" name="tariff" type="number" :rules="[tariffInputValidate]" />
       <VaButton @click="create" class="add">Создать</VaButton>
     </VaForm>
