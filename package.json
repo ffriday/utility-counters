@@ -1,4 +1,5 @@
 {
+  "homepage": "https://ffriday.github.io/utility-counters",
   "name": "utility-counters",
   "version": "0.0.0",
   "private": true,
@@ -11,7 +12,7 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "deploy": "gh-pages -d build"
+    "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {
     "firebase": "^10.8.0",
