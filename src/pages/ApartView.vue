@@ -7,11 +7,14 @@ import { collection, doc, onSnapshot, query, where, type DocumentData } from 'fi
 import { db } from '@/main';
 import { DBPaths, type Apart } from '@/constants';
 import { myHandleError } from '@/functions';
+import { MonthCard } from '@/components';
 
 const { isLogged, id } = storeToRefs(useAuthStore())
 const apartId = useRoute().params.id
 
-const isLoading = ref(true)
+const months = Array.from({ length: 12 }, (_, i) => i + 1)
+const year = ref<number>(new Date().getFullYear())
+const isLoading = ref<boolean>(true)
 
 const apart: Ref<Apart | undefined> = ref(undefined)
 onSnapshot(doc(db, DBPaths.apart, apartId.toString()), (apartSpanshot) => {
@@ -30,7 +33,7 @@ onSnapshot(q, (apartSpanshot) => {
       id: doc.id,
     })
   })
-  console.log(rawData)
+  console.log(data.value)
 }, (err) => {
   myHandleError(err)
 })
@@ -38,8 +41,19 @@ onSnapshot(q, (apartSpanshot) => {
 </script>
 
 <template>
-  <h4 v-if="apart" class="va-h4">{{ apart.name }}. Баланс: {{ apart.balance }}</h4>
+  <div>
+    <div class="apart-header">
+    <h4 v-if="apart" class="va-h5">{{ apart.name }}</h4>
+    <h4 v-if="apart" class="va-h5">Баланс: {{ apart.balance }}</h4>
+  </div>
+  <div class="apart-header">
+    <VaIcon class="material-icons" size="2rem" @click="year--">arrow_back</VaIcon>
+    <h4 v-if="apart" class="year va-h5">{{ year }}</h4>
+    <VaIcon class="material-icons" size="2rem" @click="year++">arrow_forward</VaIcon>
+  </div>
+  </div>
   <main>
+    <MonthCard v-for="month in months" :key="month" :month="month" :year=year />
   </main>
 </template>
 
@@ -57,5 +71,16 @@ main {
   gap: 1rem;
   padding: 1rem;
   margin: 0 auto;
+}
+
+.apart-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.year {
+  margin: 0;
 }
 </style>

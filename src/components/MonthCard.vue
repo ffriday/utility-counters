@@ -1,9 +1,10 @@
 <script setup lang="ts">
+const props = defineProps<{ year: number, month: number }>()
 </script>
 
 <template>
   <VaCard class="apart-card">
-    <slot></slot>
+    <VaCardTitle>{{ props.year }}.{{ props.month }}</VaCardTitle>
   </VaCard>
 </template>
 
