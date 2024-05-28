@@ -24,7 +24,6 @@ export const updateApart = async (apartId: string, apart: Apart) => {
 
 export const pushCounters = async (id: string, year: number, month: number, counters: CounterParams) => {
   const counterRef = collection(db, DBPaths.apart, id, DBPaths.year, year.toString(), DBPaths.month);
-  console.log(db, DBPaths.users, id, DBPaths.year, year.toString(), DBPaths.month)
   return await setDoc(doc(counterRef, month.toString()), counters);
 }
 
