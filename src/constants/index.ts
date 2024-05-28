@@ -55,5 +55,12 @@ export const tariffList: TariffItem[] = [
   { label: 'Электричество, р/кВт⋅ч', name: 'electricity' },
   { label: 'Холодная вода, р/м3', name: 'coldWater' },
   { label: 'Горячая вода, р/м3', name: 'hotWater' },
-  { label: 'Водоотведение, р', name: 'drainage' },
+  { label: 'Водоотведение, р/m3', name: 'drainage' },
+];
+
+export const countersList: TariffItem[] = [
+  { label: 'Электричество, кВт⋅ч', name: 'electricity' },
+  { label: 'Холодная вода, м3', name: 'coldWater' },
+  { label: 'Горячая вода, м3', name: 'hotWater' },
+  { label: 'Водоотведение, м3', name: 'drainage' },
 ];

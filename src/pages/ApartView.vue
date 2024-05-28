@@ -10,11 +10,11 @@ import { myHandleError } from '@/functions';
 import { MonthCard } from '@/components';
 
 const { isLogged, id } = storeToRefs(useAuthStore())
-const apartId = useRoute().params.id
+const apartId: string = Array.isArray(useRoute().params.id) ? useRoute().params.id[0] : useRoute().params.id.toString()
 
 const months = Array.from({ length: 12 }, (_, i) => i + 1)
 const year = ref<number>(new Date().getFullYear())
-const isLoading = ref<boolean>(true)
+// const isLoading = ref<boolean>(true)
 
 const apart: Ref<Apart | undefined> = ref(undefined)
 onSnapshot(doc(db, DBPaths.apart, apartId.toString()), (apartSpanshot) => {
@@ -23,20 +23,20 @@ onSnapshot(doc(db, DBPaths.apart, apartId.toString()), (apartSpanshot) => {
   myHandleError(err)
 })
 
-const data = ref({})
-const q = query(collection(db, DBPaths.apart, apartId.toString(), "year", year.value.toString(), "month"))
-onSnapshot(q, (apartSpanshot) => {
-  const rawData: DocumentData[] = []
-  apartSpanshot.forEach((doc) => {
-    rawData.push({
-      ...doc.data(),
-      id: doc.id,
-    })
-  })
-  console.log(data.value)
-}, (err) => {
-  myHandleError(err)
-})
+// const data = ref({})
+// const q = query(collection(db, DBPaths.apart, apartId.toString(), "year", year.value.toString(), "month"))
+// onSnapshot(q, (apartSpanshot) => {
+//   const rawData: DocumentData[] = []
+//   apartSpanshot.forEach((doc) => {
+//     rawData.push({
+//       ...doc.data(),
+//       id: doc.id,
+//     })
+//   })
+//   console.log(data.value)
+// }, (err) => {
+//   myHandleError(err)
+// })
 
 </script>
 
@@ -53,7 +53,7 @@ onSnapshot(q, (apartSpanshot) => {
   </div>
   </div>
   <main>
-    <MonthCard v-for="month in months" :key="month" :month="month" :year=year />
+    <MonthCard v-for="month in months" :key="month" :month="month" :year="year" :isLogged="isLogged" :id="apartId"/>
   </main>
 </template>
 

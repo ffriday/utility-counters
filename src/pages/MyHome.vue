@@ -5,7 +5,6 @@ import { MyProjectsVue } from '.';
 
 const { isLogged } = storeToRefs(useAuthStore())
 
-
 </script>
 
 <template>

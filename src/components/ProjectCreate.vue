@@ -6,8 +6,8 @@ import { PopUp, ProjectCard } from '.';
 import { ref, type Ref } from 'vue';
 import { useForm } from 'vuestic-ui';
 import { myHandleError } from '@/functions';
-import { initialCounterParams, initialName, type CounterParams } from '@/constants';
-import TariffInput from './TariffInput.vue';
+import { initialCounterParams, initialName, tariffList, type CounterParams } from '@/constants';
+import CounterInput from './CounterInput.vue';
 
 const { id } = storeToRefs(useAuthStore())
 const { validate } = useForm("createForm");
@@ -42,7 +42,7 @@ const create = async () => {
     (v) => Boolean(v) || 'Введите название',
     (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
   ]" />
-      <TariffInput ref="counterParams" />
+      <CounterInput ref="counterParams" caption="Тарифы" :initialParams="initialCounterParams" :inputList="tariffList"/>
       <VaButton @click="create" class="add">
         <VaInnerLoading v-if="isPending" loading color="secondary" />
         {{ !isPending ? 'Создать' : '' }}
@@ -50,7 +50,7 @@ const create = async () => {
     </VaForm>
   </PopUp>
   <ProjectCard>
-    <VaCardTitle>Добавить квартиру</VaCardTitle>
+    <VaCardTitle class="add-caption">Добавить квартиру</VaCardTitle>
     <VaButton @click="isPopupVisible = true" class="add" :disabled="isPending">Добавить</VaButton>
   </ProjectCard>
 </template>
@@ -68,6 +68,10 @@ const create = async () => {
   justify-content: center;
   align-items: center;
   margin-top: 0.5rem;
+}
+
+.add-caption {
+  padding-right: 0;
 }
 
 .va-card-title {
