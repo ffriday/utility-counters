@@ -50,3 +50,10 @@ export const initialCounterParams: CounterParams = {
 }
 
 export const initialName = 'Моя квартира'
+
+export const tariffList: TariffItem[] = [
+  { label: 'Электричество, р/кВт⋅ч', name: 'electricity' },
+  { label: 'Холодная вода, р/м3', name: 'coldWater' },
+  { label: 'Горячая вода, р/м3', name: 'hotWater' },
+  { label: 'Водоотведение, р', name: 'drainage' },
+];

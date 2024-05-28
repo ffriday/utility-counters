@@ -24,7 +24,7 @@ onSnapshot(doc(db, DBPaths.apart, apartId.toString()), (apartSpanshot) => {
 })
 
 const data = ref({})
-const q = query(collection(db, DBPaths.apart, apartId.toString(), "year", "2024", "month"))
+const q = query(collection(db, DBPaths.apart, apartId.toString(), "year", year.value.toString(), "month"))
 onSnapshot(q, (apartSpanshot) => {
   const rawData: DocumentData[] = []
   apartSpanshot.forEach((doc) => {

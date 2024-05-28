@@ -6,7 +6,8 @@ import { PopUp, ProjectCard } from '.';
 import { ref, type Ref } from 'vue';
 import { useForm } from 'vuestic-ui';
 import { myHandleError } from '@/functions';
-import { initialCounterParams, initialName, type CounterParams, type TariffItem } from '@/constants';
+import { initialCounterParams, initialName, type CounterParams } from '@/constants';
+import TariffInput from './TariffInput.vue';
 
 const { id } = storeToRefs(useAuthStore())
 const { validate } = useForm("createForm");
@@ -31,15 +32,6 @@ const create = async () => {
     }
   }
 }
-
-const tariffInputValidate = (v: string) => !Number.isNaN(Number(v)) && Number(v) > 0 || 'Введите тариф';
-
-const tariffList: TariffItem[] = [
-  { label: 'Электричество, р/кВт⋅ч', name: 'electricity' },
-  { label: 'Холодная вода, р/м3', name: 'coldWater' },
-  { label: 'Горячая вода, р/м3', name: 'hotWater' },
-  { label: 'Водоотведение, р', name: 'drainage' },
-];
 </script>
 
 <template>
@@ -50,9 +42,7 @@ const tariffList: TariffItem[] = [
     (v) => Boolean(v) || 'Введите название',
     (v) => v.length < 20 || 'Название должно быть меньше 20 символов',
   ]" />
-      <VaCardTitle>Тарифы</VaCardTitle>
-      <VaInput v-for="tariff in tariffList" :key="tariff.name" v-model.number="counterParams[tariff.name]"
-        :label="tariff.label" name="tariff" type="number" :rules="[tariffInputValidate]" />
+      <TariffInput ref="counterParams" />
       <VaButton @click="create" class="add">
         <VaInnerLoading v-if="isPending" loading color="secondary" />
         {{ !isPending ? 'Создать' : '' }}
