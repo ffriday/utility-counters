@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DBPaths, type ApartDoc } from '@/constants';
-import { ref, type Ref } from 'vue';
+import { onUnmounted, ref, type Ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { ProjectViewVue, ProjectCreateVue, ProjectCard } from '@/components'
@@ -10,10 +10,11 @@ import { myHandleError } from '@/functions';
 
 const { id } = storeToRefs(useAuthStore())
 const isLoading = ref(true)
+let unsubscribe = null
 
 const data: Ref<ApartDoc[]> = ref([])
 const q = query(collection(db, DBPaths.apart), where("owner", "==", id.value))
-onSnapshot(q, (apartSpanshot) => {
+unsubscribe = onSnapshot(q, (apartSpanshot) => {
   const rawData: DocumentData[] = []
   apartSpanshot.forEach((doc) => {
     rawData.push({
@@ -27,6 +28,7 @@ onSnapshot(q, (apartSpanshot) => {
 }, (err) => {
   myHandleError(err)
 })
+onUnmounted(() => unsubscribe())
 
 </script>
 
