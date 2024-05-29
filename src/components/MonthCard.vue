@@ -6,8 +6,6 @@ import PopUp from './PopUp.vue';
 import CounterInput from './CounterInput.vue';
 import { useForm } from 'vuestic-ui';
 
-// import type { CounterParams } from '@/constants';
-
 const props = defineProps<{ year: number, month: number, isLogged: boolean, id: string, params: CounterParams }>()
 
 const counterParams: Ref<CounterParams> = ref(initialCounterParams)
@@ -91,10 +89,19 @@ const setCounters = async () => {
   }
 }
 
+.apart-input {
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 </style>

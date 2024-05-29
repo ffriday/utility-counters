@@ -3,7 +3,8 @@ const props = defineProps(['isVisible'])
 </script>
 
 <template>
-  <div class="overlay" v-if="props.isVisible" @mousedown="$emit('togglePopUp')">
+  <div class="overlay" v-if="props.isVisible" @mousedown="$emit('togglePopUp')" @wheel.prevent @touchmove.prevent
+    @scroll.prevent>
     <div class="box" @mousedown.stop>
       <slot></slot>
     </div>
@@ -26,6 +27,7 @@ const props = defineProps(['isVisible'])
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .box {

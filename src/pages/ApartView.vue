@@ -3,18 +3,17 @@ import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useRoute } from 'vue-router';
 import { onUnmounted, ref, watch, type Ref } from 'vue';
-import { collection, doc, onSnapshot, query, where, type DocumentData } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, type DocumentData } from 'firebase/firestore';
 import { db } from '@/main';
-import { DBPaths, type Apart, type CounterParams, type CounterData, initialCounterParams, initialMonthData } from '@/constants';
+import { DBPaths, type Apart, type CounterData, initialMonthData } from '@/constants';
 import { myHandleError } from '@/functions';
 import { MonthCard } from '@/components';
 import type { Unsubscribe } from 'firebase/auth';
 
-const { isLogged, id } = storeToRefs(useAuthStore())
+const { isLogged } = storeToRefs(useAuthStore())
 const apartId: string = Array.isArray(useRoute().params.id) ? useRoute().params.id[0] : useRoute().params.id.toString()
 
 const year = ref<number>(new Date().getFullYear())
-const isLoading = ref<boolean>(true)
 let unsubscribe: Unsubscribe | null = null
 
 const apart: Ref<Apart | undefined> = ref(undefined)
@@ -28,7 +27,6 @@ const data = ref<CounterData[]>(initialMonthData())
 const listen = () => {
   const q = query(collection(db, DBPaths.apart, apartId.toString(), "year", year.value.toString(), "month"))
   unsubscribe = onSnapshot(q, (apartSpanshot) => {
-    isLoading.value = true
     const rawData: DocumentData[] = []
     apartSpanshot.forEach((doc) => {
       rawData.push({
@@ -36,7 +34,6 @@ const listen = () => {
         id: Number(doc.id),
       })
     })
-    isLoading.value = false
     const counterData = rawData as CounterData[]
     const tempData = initialMonthData()
     counterData.forEach((item) => tempData[item.id - 1].counterParams = item.counterParams)
